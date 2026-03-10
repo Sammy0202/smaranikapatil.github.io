@@ -1,42 +1,40 @@
-const text = "Robotics Trainer | AI Engineer | Web Developer";
+function openCert(type){
 
-let i = 0;
+let html="";
 
-function typing(){
+if(type==="ml"){
+html=`
+<img src="images/certificates/ml_flask.jpg">
+<img src="images/certificates/ml_project.jpg">
+`;
+}
 
-if(i < text.length){
+if(type==="web"){
+html=`
+<img src="images/certificates/bootstrap.jpg">
+<img src="images/certificates/html.jpg">
+<img src="images/certificates/css.jpg">
+`;
+}
 
-document.querySelector(".typing").innerHTML += text.charAt(i);
+if(type==="security"){
+html=`
+<img src="images/certificates/cybersecurity.jpg">
+`;
+}
 
-i++;
+if(type==="java"){
+html=`
+<img src="images/certificates/java.jpg">
+`;
+}
 
-setTimeout(typing,50);
+document.getElementById("certContainer").innerHTML = html;
+document.getElementById("certModal").style.display = "block";
 
 }
 
+
+function closeCert(){
+document.getElementById("certModal").style.display = "none";
 }
-
-typing();
-
-
-particlesJS("particles-js", {
-
-particles:{
-number:{value:80},
-size:{value:3},
-move:{speed:2},
-line_linked:{enable:true}
-
-}
-
-});
-
-
-ScrollReveal().reveal('section',{
-
-delay:200,
-distance:'40px',
-duration:1000,
-origin:'bottom'
-
-});
