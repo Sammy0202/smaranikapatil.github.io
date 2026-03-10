@@ -1,4 +1,4 @@
-const text = "Backend Developer | AI Engineer | Machine Learning";
+const text = "Robotics Trainer | AI Engineer | Web Developer";
 
 let i = 0;
 
