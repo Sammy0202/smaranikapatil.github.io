@@ -1,79 +1,80 @@
-// TYPING EFFECT
-const roles = ["AI Engineer","Machine Learning Developer","Web Developer"];
-let i = 0;
-let j = 0;
-let current = "";
-let isDeleting = false;
+document.addEventListener("DOMContentLoaded", function(){
 
-function type(){
-current = roles[i];
-
-if(!isDeleting){
-document.querySelector(".typing").innerHTML = current.substring(0,j++);
-if(j > current.length){
-isDeleting = true;
-setTimeout(type,1000);
-return;
-}
-}else{
-document.querySelector(".typing").innerHTML = current.substring(0,j--);
-if(j == 0){
-isDeleting = false;
-i = (i+1) % roles.length;
-}
-}
-
-setTimeout(type, isDeleting ? 50 : 100);
-}
-
-type();
-
-
-// PARTICLES FIXED (LOW OPACITY)
-particlesJS("particles-js",{
+particlesJS("particles-js", {
 particles:{
-number:{value:70},
-color:{value:"#38bdf8"},
-opacity:{value:0.2},
+number:{value:50},
 size:{value:3},
-line_linked:{
-enable:true,
-distance:150,
-color:"#38bdf8",
-opacity:0.2,
-width:1
-},
-move:{speed:2}
+move:{speed:2},
+line_linked:{enable:true}
 }
 });
 
+// typing
+const roles=["AI Engineer","Backend Developer","ML Developer"];
+let i=0,j=0,isDeleting=false;
+const typing=document.querySelector(".typing");
 
-// CERTIFICATE POPUP
-function openCert(type){
+function type(){
+let word=roles[i];
+j=isDeleting?j-1:j+1;
+typing.innerHTML=word.substring(0,j);
 
-let html="";
-
-if(type==="ml"){
-html=`<img src="images/certificates/ml_flask.jpg">`;
+if(!isDeleting && j===word.length){
+isDeleting=true;
+setTimeout(type,1000);
+return;
 }
 
-if(type==="web"){
-html=`<img src="images/certificates/html.jpg">`;
+if(isDeleting && j===0){
+isDeleting=false;
+i=(i+1)%roles.length;
 }
 
-if(type==="security"){
-html=`<img src="images/certificates/cybersecurity.jpg">`;
+setTimeout(type,isDeleting?40:80);
+}
+type();
+
+// scroll reveal
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("show");
+}
+});
+});
+
+document.querySelectorAll("section").forEach(sec=>{
+sec.classList.add("hidden");
+observer.observe(sec);
+});
+
+// cert popup
+window.openCert=function(type){
+let container=document.getElementById("certContainer");
+container.innerHTML="";
+
+let images={
+web:["HTML5.png","CSS3.png","JavaScript.png","PHP_and_MySQL.png"],
+ml:["ML_Project.png","ml_project.jpg"],
+programming:["Cpp.png","Programming_In_Java.png","Linux.png","latex.png"],
+cyber:["cybersecurity.jpg"]
+};
+
+images[type].forEach(img=>{
+let el=document.createElement("img");
+el.src="images/certificates/"+img;
+container.appendChild(el);
+});
+
+document.getElementById("certModal").style.display="block";
 }
 
-if(type==="java"){
-html=`<img src="images/certificates/java.jpg">`;
+document.getElementById("closeBtn").onclick=()=>document.getElementById("certModal").style.display="none";
+
+window.onclick=(e)=>{
+if(e.target.id==="certModal"){
+document.getElementById("certModal").style.display="none";
+}
 }
 
-document.getElementById("certContainer").innerHTML = html;
-document.getElementById("certModal").style.display = "block";
-
-}
-
-function closeCert(){
-document.getElementById("certModal").style.display = "none";
-}
+});
